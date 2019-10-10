@@ -184,23 +184,8 @@ TBitField TBitField::operator~(void) // отрицание
 
 istream &operator>>(istream &istr, TBitField &bf) // ввод
 {
-	/*string tmp;
-	istr >> tmp;
-	if (tmp.size() != bf.GetLength())
-	{
-		throw("Error(Incorrect lenght)");
-	}
-	for (int i = 0; i < bf.BitLen; i++)
-		switch (tmp[i])
-		{
-		case 1:
-			bf.SetBit(i);
-		case 0:
-			bf.ClrBit(i);
-		default:
-			throw("Error(Incorrect input)");
-		}
-	return istr;*/
+	
+	return istr;
 }
 
 
