@@ -1,6 +1,0 @@
-C:/Users/osipov.n/Desktop/mp2-lab1-set/sln/GUS/CMakeFiles/ALL_BUILD.dir
-C:/Users/osipov.n/Desktop/mp2-lab1-set/sln/GUS/CMakeFiles/ZERO_CHECK.dir
-C:/Users/osipov.n/Desktop/mp2-lab1-set/sln/GUS/src/CMakeFiles/set.dir
-C:/Users/osipov.n/Desktop/mp2-lab1-set/sln/GUS/samples/CMakeFiles/sample_prime_numbers.dir
-C:/Users/osipov.n/Desktop/mp2-lab1-set/sln/GUS/gtest/CMakeFiles/gtest.dir
-C:/Users/osipov.n/Desktop/mp2-lab1-set/sln/GUS/test/CMakeFiles/test_set.dir
