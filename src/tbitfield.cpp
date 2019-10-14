@@ -7,24 +7,25 @@
 
 #include "tbitfield.h"
 
-TBitField::TBitField(int len)
+TBitField::TBitField(int len) : BitLen(len), MemLen((BitLen / (8 * sizeof(TELEM))) + 1)
 {
-	if (len < 0) throw (exception());
-	BitLen = len;
-	MemLen = (BitLen / (8 * sizeof(TELEM))) + 1;
+	if (len < 0) throw("Error(len<0)");
 	pMem = new TELEM[MemLen];
+	
 	for (int i = 0; i < MemLen; i++)
+	{
 		pMem[i] = 0;
+	}
 }
 
 TBitField::TBitField(const TBitField &bf) // конструктор копирования
 {
-	BitLen = bf.BitLen;
-	MemLen = bf.MemLen;
 	pMem = new TELEM[MemLen];
+	
 	for (int i = 0; i < MemLen; i++)
+	{
 		pMem[i] = bf.pMem[i];
-
+	}
 }
 
 TBitField::~TBitField()
@@ -32,20 +33,20 @@ TBitField::~TBitField()
 	delete[]pMem;
 	BitLen = 0;
 	MemLen = 0;
-	pMem   = 0;
+	pMem   = nullptr;
 }
 
 int TBitField::GetMemIndex(const int n) const // индекс Мем для бита n
 {
-	if ((n < 0) || (n >= BitLen)) throw "Erroe : invalid value";
-	return n / (8 * sizeof(TELEM));
-
+	if ((n < 0) || (n >= BitLen)) throw "Error(Incorrect bit)";
+	
+	return (n / (8 * sizeof(TELEM)));
 }
 
 TELEM TBitField::GetMemMask(const int n) const // битовая маска для бита n
 {
-	if ((n < 0) || (n >= BitLen)) throw "Erroe : invalid value";
-	return 1 << (n&31);
+	if ((n < 0) || (n >= BitLen)) throw("Error(Incorrect bit)");
+	return 1 << (n % (sizeof(TELEM) * 8));
 }
 
 // доступ к битам битового поля
@@ -57,26 +58,19 @@ int TBitField::GetLength(void) const // получить длину (к-во б�
 
 void TBitField::SetBit(const int n) // установить бит
 {
-	if ((n < 0) || (n >= BitLen))
-	{
-		throw "Error(Incorrect bit)";
-	}
-
+	if ((n < 0) || (n >= BitLen)) throw "Error(Incorrect bit)";
 	pMem[GetMemIndex(n)] |= GetMemMask(n);
 }
 
 void TBitField::ClrBit(const int n) // очистить бит
 {
-	if ((n < 0) || (n >= BitLen))
-	{
-		throw("Error(Incorrect bit)");
-	}
+	if ((n < 0) || (n >= BitLen)) throw("Error(Incorrect bit)");
 	pMem[GetMemIndex(n)] &= ~GetMemMask(n);
 }
 
 int TBitField::GetBit(const int n) const // получить значение бита
 {
-	if ((n < 0) || (n >= BitLen)) throw "Erroe : invalid value";
+	if ((n < 0) || (n >= BitLen)) throw "Error(Incorrect bit)";
 	return (pMem[GetMemIndex(n)] & GetMemMask(n));
 }
 
@@ -90,6 +84,7 @@ TBitField& TBitField::operator=(const TBitField &bf) // присваивание
 		BitLen = bf.BitLen;
 		MemLen = bf.MemLen;
 		pMem = new TELEM[MemLen];
+		
 		for (int i = 0; i < MemLen; i++)
 			pMem[i] = bf.pMem[i];
 	}
@@ -193,7 +188,22 @@ TBitField TBitField::operator~(void) // отрицание
 
 istream &operator>>(istream &istr, TBitField &bf) // ввод
 {
+	int i = 0;
+	char ch;
 	
+	do 
+	{
+		istr >> ch;
+	} 
+	while (ch != ' ');
+	while (1) 
+	{
+		istr >> ch;
+		if (ch == '0') bf.ClrBit(i++);
+		else 
+			if (ch == '1') bf.SetBit(i++); 
+			else break;
+	}
 	return istr;
 }
 

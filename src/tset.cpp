@@ -26,7 +26,7 @@ TSet::TSet(const TBitField &bf) : BitField(-1)
 
 TSet::operator TBitField()
 {
-  return BitField;
+	return BitField;
 }
 
 int TSet::GetMaxPower(void) const // получить макс. к-во эл-тов
@@ -94,17 +94,13 @@ TSet TSet::operator-(const int Elem) // разность с элементом
 
 TSet TSet::operator*(const TSet &s) // пересечение
 {
-    /*TSet tmp(max(s.MaxPower, MaxPower));
-	tmp.BitField.operator&(s.BitField);
-	tmp.MaxPower = max(s.MaxPower, MaxPower);
-	return tmp;*/
-	return TSet(1);
+	TSet tmp(BitField & s.BitField);
+	return tmp;
 }
 
 TSet TSet::operator~(void) // дополнение
 {
-	TSet tmp(MaxPower);
-	tmp.BitField.operator~();
+	TSet tmp(~BitField);
 	return tmp;
 }
 
@@ -112,10 +108,19 @@ TSet TSet::operator~(void) // дополнение
 
 istream &operator>>(istream &istr, TSet &s) // ввод
 {
-	return istr >> s.BitField;
+	int i = 0;
+	istr >> i;
+	while ((i >= 0) && (i < s.MaxPower))
+	{
+		s.InsElem(i);
+		istr >> i;
+	}
+	return istr;
 }
 
 ostream& operator<<(ostream &ostr, const TSet &s) // вывод
 {
-	return ostr << s.BitField;
+	for (int i = 0; i < s.GetMaxPower(); i++)
+		if (s.IsMember(i)) ostr << i;
+	return ostr;
 }
