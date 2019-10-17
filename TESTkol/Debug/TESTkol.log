@@ -1,0 +1,3 @@
+﻿  Source.cpp
+c:\users\osipov.n\desktop\mp2-lab1-set\testkol\source.cpp(5): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
+  TESTkol.vcxproj -> C:\Users\osipov.n\Desktop\mp2-lab1-set\sln\Debug\TESTkol.exe
